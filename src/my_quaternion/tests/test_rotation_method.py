@@ -10,16 +10,19 @@ class Test_DeflectionBy:
     u1 = (scale*1, scale*2, scale*3)
     randPhi = 0.7
     randPsi = 0.0
-    m1.rotate(u1,randPhi,randPsi,phys.m_a(),phys.m_b())
-    ## u1 = direction of travel
-    ## u2 = deflectionCalculation(u1, 0)
-    ## assert u2 == u1
-    assert False  ## not yet implemented
+    u2 = m1.rotate(u1,randPhi,randPsi,phys.m_a(),phys.m_b())
+    assert u2 == u1
 
   def test_piRadiansResultsInReflectedVector(self):
-    ## u1 = direction of travel
-    ## u2 = deflectionCalculation(u1, math.pi)
-    ## assert u2 == -u1 
-    assert False  ## not yet implemented
+    m1 = EulerAngleMethod()
+    scale = (1/math.sqrt(1+4+9))
+    u1 = tuple(scale*x for x in (1, 2, 3))
+    randPhi = 0.7
+    randPsi = 1.0
+    u2 = m1.rotate(u1,randPhi,randPsi,phys.m_a(),phys.m_b())
+    error = math.sqrt(sum(tuple((a+b)**2 for a,b in zip(u1,u2))))
+    ## allow for variation in the final digit of the floats
+    threshold = 1e-15
+    assert error < threshold
 
 
